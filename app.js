@@ -65,6 +65,7 @@
   function setTheme(dark) {
     document.documentElement.dataset.theme = dark ? 'dark' : 'light';
     $('btnTheme').title = dark ? 'Switch to day mode' : 'Switch to night mode';
+    $('themeLabel').textContent = dark ? 'Day mode' : 'Night mode';
   }
 
   setTheme(load(THEME_KEY, window.matchMedia('(prefers-color-scheme: dark)').matches));

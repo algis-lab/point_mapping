@@ -74,7 +74,7 @@ body { display: flex; flex-direction: column; }
 }
 .tool:hover, .icon-btn:hover { background: rgba(255, 255, 255, .12); }
 .tool.active { background: #fff; color: #12324a; }
-#btnTheme { margin-left: auto; }
+#btnTheme { margin-left: auto; border-color: rgba(255, 255, 255, .35); }
 #btnTheme .moon, :root[data-theme=dark] #btnTheme .sun { display: block; }
 #btnTheme .sun, :root[data-theme=dark] #btnTheme .moon { display: none; }
 .tool.tracking { background: #1e88e5; color: #fff; }
