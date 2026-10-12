@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Point Mapping GIS</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <button id="btnSidebar" class="icon-btn" title="Show / hide feature list" aria-label="Toggle feature list">
+      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+    <h1 class="brand">Point Mapping <span>GIS</span></h1>
+
+    <div class="toolbar" role="toolbar" aria-label="Map tools">
+      <button class="tool active" data-tool="select" title="Select and edit features (Esc)">
+        <svg viewBox="0 0 24 24"><path d="M5 3l14 8-6 2-2 6z"/></svg>
+        <span>Select</span>
+      </button>
+      <button class="tool" data-tool="point" title="Add points: click the map">
+        <svg viewBox="0 0 24 24"><path d="M12 21s-6-5.7-6-10a6 6 0 1 1 12 0c0 4.3-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>
+        <span>Add point</span>
+      </button>
+      <button class="tool" data-tool="line" title="Add a polyline: click to add vertices, double-click to finish">
+        <svg viewBox="0 0 24 24"><path d="M4 18l5-10 6 7 5-10"/><circle cx="4" cy="18" r="1.6"/><circle cx="9" cy="8" r="1.6"/><circle cx="15" cy="15" r="1.6"/><circle cx="20" cy="5" r="1.6"/></svg>
+        <span>Add polyline</span>
+      </button>
+
+      <span class="sep"></span>
+
+      <button id="btnLocate" class="tool" title="Show my GPS location">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
+        <span>My location</span>
+      </button>
+      <button id="btnGpsPoint" class="tool" title="Add a point (or a polyline vertex while drawing) at my GPS location">
+        <svg viewBox="0 0 24 24"><circle cx="10" cy="14" r="4"/><path d="M10 6v2M10 20v2M2 14h2M16 14h2M19 2v6M16 5h6"/></svg>
+        <span>GPS point</span>
+      </button>
+    </div>
+
+    <button id="btnTheme" class="icon-btn" title="Switch to night mode" aria-label="Toggle night mode">
+      <svg class="moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.500 4a7 7 0 1 0 10.500 10.500z"/></svg>
+      <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.900 4.900l1.400 1.400M17.700 17.700l1.400 1.400M4.900 19.100l1.400-1.400M17.700 6.300l1.400-1.400"/></svg>
+    </button>
+  </header>
+
+  <div class="main">
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-head">
+        <h2>Features <span id="featureCount" class="count">0</span></h2>
+        <input id="search" type="search" placeholder="Search by name…" autocomplete="off">
+        <label class="check"><input id="chkLabels" type="checkbox"> Show labels on map</label>
+      </div>
+      <ul id="featureList" class="feature-list"></ul>
+      <p id="emptyMsg" class="empty">No features yet. Pick <b>Add point</b> or <b>Add polyline</b> and click on the map.</p>
+      <div class="sidebar-foot">
+        <button id="btnImport" class="btn">Import</button>
+        <button id="btnExport" class="btn">Export GeoJSON</button>
+        <button id="btnClear" class="btn danger">Clear all</button>
+        <input id="fileInput" type="file" accept=".geojson,.json,application/geo+json,application/json" hidden>
+      </div>
+    </aside>
+
+    <div class="map-wrap">
+      <div id="map"></div>
+
+      <div id="drawBar" class="draw-bar" hidden>
+        <span id="drawHint"></span>
+        <span id="drawActions" hidden>
+          <button id="btnUndo" class="btn small">Undo</button>
+          <button id="btnFinish" class="btn small primary">Finish</button>
+        </span>
+        <button id="btnCancel" class="btn small">Cancel</button>
+      </div>
+
+      <div class="statusbar">
+        <span id="cursorPos">—</span>
+        <span id="gpsStatus">GPS off</span>
+      </div>
+      <div id="toast" class="toast" hidden></div>
+    </div>
+  </div>
+
+  <dialog id="featureDialog">
+    <form method="dialog" id="featureForm">
+      <h3 id="dlgTitle">Feature</h3>
+      <label>Name
+        <input id="fName" type="text" maxlength="80" required>
+      </label>
+      <label>Notes
+        <textarea id="fNotes" rows="3" maxlength="500"></textarea>
+      </label>
+      <div class="field">Color
+        <div id="fColors" class="swatches"></div>
+      </div>
+      <p id="fInfo" class="info"></p>
+      <div class="dlg-actions">
+        <button type="button" id="dlgCancel" class="btn">Cancel</button>
+        <button type="submit" class="btn primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
